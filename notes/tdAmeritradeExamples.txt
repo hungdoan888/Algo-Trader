@@ -1,0 +1,34 @@
+
+# Get Price History Example
+r = c.get_price_history('AAPL',
+                        period_type=client.Client.PriceHistory.PeriodType.YEAR,
+                        period=client.Client.PriceHistory.Period.TWENTY_YEARS,
+                        frequency_type=client.Client.PriceHistory.FrequencyType.DAILY,
+                        frequency=client.Client.PriceHistory.Frequency.DAILY)
+assert r.status_code == 200, r.raise_for_status()
+print(json.dumps(r.json(), indent=4))
+
+# Get Quote
+response = c.get_quote("BA").json()
+
+# Get Account Info
+accountInfo = c.get_account(accountNumber).json()
+accountInfoPositions = c.get_account(accountNumber, fields=client.Client.Account.Fields.POSITIONS).json()
+accountInfoOrders = c.get_account(accountNumber, fields=client.Client.Account.Fields.ORDERS).json()
+
+# Postions
+x = accountInfoPositions["securitiesAccount"]["positions"][0]["instrument"]["symbol"]
+
+# Placing an order
+buyStock = tda.orders.equities.equity_buy_market("RDFN", 1)
+
+
+# Send Order
+resp = c.place_order(accountNumber, buyStock.build())
+
+# Sell Order
+sellStock = tda.orders.equities.equity_sell_market("RDFN", 1)
+
+# Get Stocks (Not useful)
+currentStocksHave = c.get_instrument("VOO").json()
+currentStocksNotHave = c.get_instrument("AAPL").json()

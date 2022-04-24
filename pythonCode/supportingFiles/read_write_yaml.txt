@@ -1,0 +1,8 @@
+- Write to yml
+	- conda env export > environment_droplet.yml
+
+
+- Read from yml
+	-conda env create -f environment.yml
+
+https://shandou.medium.com/export-and-create-conda-environment-with-yml-5de619fe5a2
